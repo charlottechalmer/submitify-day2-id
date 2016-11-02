@@ -22,6 +22,10 @@ function createProjectHMTL(project) {
 
 	var buttonEl = projectDiv.find(".project_vote");
 	buttonEl.attr("id", project.name);
+	if (project.votedFor) {
+		buttonEl.text("Voted!");
+		buttonEl.attr("disabled", "disabled");
+	}
 
 	// return a reference to the clone
 	return projectDiv;
@@ -57,6 +61,7 @@ $(document).ready(function() {
 			for (var i in res) {
 				// for-in, since for-of sometimes doesn't work on frontend
 				$('#projects').append(createProjectHMTL(res[i]));
+
 			}
 			$('.project_vote').click(onVoteClick);
 		}

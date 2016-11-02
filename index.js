@@ -63,6 +63,9 @@ app.get("/api/projects", (req, res) => {
         return;
     }
     storage.getAllProjects((projects) => {
+        projects.forEach((p) => {
+            p.votedFor = p.votes.includes(req.session.user.username);
+        });
         res.send(projects);
     });
 });
@@ -95,7 +98,7 @@ app.post("/api/vote", (req, res) => {
     // get the project based on the name from the frontend
     storage.getProjectByName(req.body.name, (proj) => {
         // add a vote to the project for the current user
-        var voted = proj.addVote("erty");
+        var voted = proj.addVote(req.session.user.username);
         // send back some info about whether we voted, etc.
         res.send({
             voted: voted,
